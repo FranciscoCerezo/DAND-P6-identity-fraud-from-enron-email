@@ -2,7 +2,8 @@
 # Identify Fraud from Enron Email
 
 ### Author: Francisco Cerezo
-****
+### 20/03/2018
+
 
 
 
@@ -15,24 +16,19 @@ ___Summarize for us the goal of this project and how machine learning is useful 
 
 
 
-The Enron fraud case, publicized in October 2001, eventually led to the bankruptcy of the Enron Corporation, an American energy company based in Houston, Texas, and the de facto dissolution of Arthur Andersen, which was one of the five largest audit and accountancy partnerships in the world.
-At the end of the investigation the email database was put on the public domain to be used for historical research and academic purposes.
+The Enron fraud case, publicized in October 2001, eventually led to the bankruptcy of the Enron Corporation, an American energy company based in Houston, Texas, and the de facto dissolution of Arthur Andersen, which was one of the five largest audit and accountancy partnerships in the world. At the end of the investigation the email database was put on the public domain to be used for historical research and academic purposes.
 
-The purpose of this project is to use machine learning techniques to identify person of interest (POIS) within the fraud case  based of this email database. 
-POI's definition is people: indicted, settled without admitting guilt, or testified in exchange of immunity.
+The purpose of this project is to use machine learning techniques to identify person of interest (POIS) within the fraud case based of this email database. POI's definition is people: indicted, settled without admitting guilt, or testified in exchange of immunity.
+
 
 ### Dataset exploration
 
-The data about the Enron email and financial data has beenn preoproceseded into a dictionary, where each key-value pair in the dictionary corresponds to one person. Exploring this dictionary we can observe the following characteristics:
+The data about the Enron email and financial data has been preprocessed into a dictionary, where each key-value pair in the dictionary corresponds to one person. Exploring this dictionary, we can observe the following characteristics:
 
 
 ```python
 import pickle
 enron_data = pickle.load(open("../final_project/final_project_dataset.pkl", "r"))
-```
-
-
-```python
 print "Number of elements in the dataset: "+str(len(enron_data))
 ```
 
@@ -54,9 +50,10 @@ print "Number of non-POIs: "+ str(len(enron_data)-i)
     Number of non-POIs: 128
     
 
-As we can see there are only 18 from 146 people categorized as POI in our dataser. This means that our dataset is clearly unbalanced on POI category and we shoul taki this into consideration when selecting, training and tuning up our clasiffier.
+As we can see there are only 18 from 146 people categorized as POI in our dataset. This means that our dataset is clearly unbalanced on POI category and we should take this into consideration when selecting, training and tuning up our classifier.
 
-Note:In the "poi_names.txt" we have  35 POIs manually identify. We could thin in to complete de dataset with this additional POIs. Unfortanately we do not have the finantial information related to ths additional POIs.
+Note: In the "poi_names.txt" we have 35 POIs manually identify. We could thin in to complete de dataset with this additional POIs. Unfortunately, we do not have the financial information related to the additional POIs.
+
 
 
 ```python
@@ -94,13 +91,14 @@ pprint.pprint(enron_data[next(iter(enron_data))])
      'total_stock_value': 585062}
     
 
-Attending to this the list of features for each people incuded in the dataset  can be organized in 3 different gorups:
+Attending to this the list of features for each people included in the dataset can be organized in 3 distinct groups:
 
-__financial features: __['salary', 'deferral_payments', 'total_payments', 'loan_advances', 'bonus', 'restricted_stock_deferred', 'deferred_income', 'total_stock_value', 'expenses', 'exercised_stock_options', 'other', 'long_term_incentive', 'restricted_stock', 'director_fees'] (all units are in US dollars)
+__· financial features:__ ['salary', 'deferral_payments', 'total_payments', 'loan_advances', 'bonus', 'restricted_stock_deferred', 'deferred_income', 'total_stock_value', 'expenses', 'exercised_stock_options', 'other', 'long_term_incentive', 'restricted_stock', 'director_fees'] (all units are in US dollars)
 
-__email features: __['to_messages', 'email_address', 'from_poi_to_this_person', 'from_messages', 'from_this_person_to_poi', 'shared_receipt_with_poi'] (units are generally number of emails messages; notable exception is ‘email_address’, which is a text string)
+__· email features:__ ['to_messages', 'email_address', 'from_poi_to_this_person', 'from_messages', 'from_this_person_to_poi', 'shared_receipt_with_poi'] (units are generally number of emails messages; notable exception is ‘email_address’, which is a text string)
 
-__POI label: __[‘poi’] (boolean, represented as integer)
+__· POI label:__ [‘poi’] (boolean, represented as integer)
+
 
 
 
@@ -142,18 +140,16 @@ pprint.pprint(missing_values)
      'total_stock_value': 19}
     
 
-We can see that there is a lot of missing values in the features of the dataset. This is another inportant point that we should keep in ming when doing the features selection.
+We can see that there is a lot of missing values in the features of the dataset. This is another important point that we should keep in mind when doing the features selection.
 
+After this quick dataset exploration, we know that he whole dataset is composed by 146 people and only 18 of them are POIs. On addition to it, there are a lot of values mission in some of the features.
 
-After this quick dataset exploration, we know that he whole dataset is composed by 146 peoople and only 18 of them are POIs. On adittiion to it, there are a lot of values mission in some of the features.
+The low size of the dataset, the unbalancing in POIs categories and the existence of missing values are very important points that we should take into consideration later, when we work on the feature selection and in the classifier selection and tune up. Due to all these problems, probably the performance of the classifier will be not as good as we would like it. Anyway, we will see what we can get with this dataset.
 
-
-The low size of the dataset, the unbalancing in POIs categorie and the existence of missing values are very important points that we should take into consideration later on, when we work on the feature selection and also in hte clasifier selection, and tune up. 
-Due to all this problems, probably the performance of the classfier will be not as good as we would like it. Anyway we will see what can we get with this dataset.
 
 ### Outliers
 
-As we discovered previously in during the miniproject, if we plot bonus vs. salary, there is an outlier datapoint representing the 'TOTAL' due to a spreadsheet quirk. 
+As we discovered previously in during the miniproject, if we plot bonus vs. salary, there is an outlier data point representing the 'TOTAL' due to a spreadsheet quirk.
 
 
 ```python
@@ -182,65 +178,26 @@ matplotlib.pyplot.show()
 ```
 
 
-![png](output_17_0.png)
+![png](output_16_0.png)
 
 
-If we remove the outlier as ploy the chart agais we can see de diference now:
+If we remove the outlier and plot the chart again we can see de difference now:
 
 
 ```python
 data_dict.pop('TOTAL', 0)
-data = featureFormat(data_dict, features)
-
-
-### your code below
-for point in data:
-    salary = point[0]
-    bonus = point[1]
-    matplotlib.pyplot.scatter( salary, bonus )
-
-matplotlib.pyplot.xlabel("salary")
-matplotlib.pyplot.ylabel("bonus")
-matplotlib.pyplot.show()
 ```
 
 
-![png](output_19_0.png)
+![png](output_18_0.png)
 
 
-By Inspenting the list of people included on the dataset I realized about another strange value 'THE TRAVEL AGENCY IN THE PARK' tha clearly not represent to a separated person so idecided to removed also.
+By Inspecting the list of people included on the dataset I realized about another strange value 'THE bTRAVEL AGENCY IN THE PARK' that clearly not represent to a separated person, so I decided to remove it also.
 
 
 ```python
 data_dict.pop('THE TRAVEL AGENCY IN THE PARK', 0)
 ```
-
-
-
-
-    {'bonus': 'NaN',
-     'deferral_payments': 'NaN',
-     'deferred_income': 'NaN',
-     'director_fees': 'NaN',
-     'email_address': 'NaN',
-     'exercised_stock_options': 'NaN',
-     'expenses': 'NaN',
-     'from_messages': 'NaN',
-     'from_poi_to_this_person': 'NaN',
-     'from_this_person_to_poi': 'NaN',
-     'loan_advances': 'NaN',
-     'long_term_incentive': 'NaN',
-     'other': 362096,
-     'poi': False,
-     'restricted_stock': 'NaN',
-     'restricted_stock_deferred': 'NaN',
-     'salary': 'NaN',
-     'shared_receipt_with_poi': 'NaN',
-     'to_messages': 'NaN',
-     'total_payments': 362096,
-     'total_stock_value': 'NaN'}
-
-
 
 
 
@@ -251,12 +208,12 @@ ___ What features did you end up using in your POI identifier, and what selectio
 ### Create new features 
 
 I decided to engineer two new features and add them into my dataset:
-    
-__fraction_from_poi:__   ratio of the messages from POI to this person against all the messages sent to this person.
 
-__fraction_to_poi:__ ratio from this person to POI against all messages from this person   
+__· fraction_from_poi:__ ratio of the messages from POI to this person against all the messages sent to this person.
 
-The assumption wich drives me to create those features is that the percentaje of mails that a POI sent/receives to/from a other OIS should be higher than the non-POIs.
+__· fraction_to_poi:__ ratio from this person to POI against all messages from this person
+
+The assumption which drives me to create those features is that the percentage of mails that a POI sent/received to/from another POIS should be higher than the non-POIs.
 
 
 ```python
@@ -286,33 +243,10 @@ for name in data_dict:
 
 ```
 
-    {'bonus': 600000,
-     'deferral_payments': 'NaN',
-     'deferred_income': 'NaN',
-     'director_fees': 'NaN',
-     'email_address': 'mark.metts@enron.com',
-     'exercised_stock_options': 'NaN',
-     'expenses': 94299,
-     'fraction_from_poi': 0.04708798017348203,
-     'fraction_to_poi': 0.034482758620689655,
-     'from_messages': 29,
-     'from_poi_to_this_person': 38,
-     'from_this_person_to_poi': 1,
-     'loan_advances': 'NaN',
-     'long_term_incentive': 'NaN',
-     'other': 1740,
-     'poi': False,
-     'restricted_stock': 585062,
-     'restricted_stock_deferred': 'NaN',
-     'salary': 365788,
-     'shared_receipt_with_poi': 702,
-     'to_messages': 807,
-     'total_payments': 1061827,
-     'total_stock_value': 585062}
-    
+### Intelligently select features  and Feature scaling
 
-### Intelligently select features  an Feature scaling
 In order to select the features idecided to use the SelectKBest function, which selects the K features with the highrst scores. I obtained the following results on my dataset:
+
 
 ```python
 # Features
@@ -367,22 +301,23 @@ pprint.pprint (results_list)
      (False, 'restricted_stock_deferred', 0.065499652909891237)]
     
 
-Before use SelectKBest function i performed some feature scaling since the  magnitures are quite different and it could impact in our analysis.
-Finally I decided to use K=10 so I finally got the 10 top ranked features: 'exercised_stock_options','total_stock_value','bonus','salary''fraction_to_poi' , 'deferred_income', 'long_term_incentive', 'restricted_stock' 'total_payments','shared_receipt_with_poi'
-In order to complement my ferture selection I crated a decision tree classfier and  I used "_feature_importance_" to ranked thoe more importante features for the clasiffier
+Finally I decided to use K=10 so I finally got the 10 top ranked features
+In order to complement my feature selection I created a decision tree classifier and  I used "_feature_importance_" to rank the more important features for the classifier
 I merged both results Kscore and _feature_importance and I decided to select the following features: 
 
 
 ```python
-selected_features=['exercised_stock_options','total_stock_value','bonus','salary', 'fraction_to_poi','deferred_income','long_term_incentive','restricted_stock','total_payments','shared_receipt_with_poi']
+features_list =  ["poi","bonus", "exercised_stock_options","fraction_to_poi", "total_stock_value", "shared_receipt_with_poi"]
 ```
 
+Before I use SelectKBest function I performed some feature scaling in the code since the magnitudes are quite different and it could impact in our analysis depending on the type of algorithm that we use later. However as in the next paragraphs we decided to use Decision Tree classifier, the performance is not affected by this because this algorithm does not require feature scaling (needed for those algorithm bases on Euclidean distances like k_means)
 
 
-### ¿Question 3?
+
+### Question 3
 ___ What algorithm did you end up using? What other one(s) did you try? How did model performance differ between algorithms?  [relevant rubric item: “pick an algorithm”]___
 
-I decided to compare 3 classifiers: Naive Bayes, decision tree and random forest and i tried the performance using the "tester.py" function provided by udacity as helper:
+I decided to compare 3 classifiers: Naive Bayes, decision tree and random forest and I tried the performance using the "tester.py" function provided by Udacity as helper:
 
 
 
@@ -407,14 +342,15 @@ test_classifier(clf3, my_dataset, features_list)
 
 ![alt text](performance.png "Results")
 
-Based on this results I selected the decision tree classifier which maximices Prcision,Recall and F1 and F2 and had a similar accuracy than the rest.
+Based on these results I selected the decision tree classifier which maximizes Precision, Recall and F1 and F2 score and had a similar accuracy than the rest.
 
 ### Question 4:
 ___What does it mean to tune the parameters of an algorithm, and what can happen if you don’t do this well?  How did you tune the parameters of your particular algorithm? What parameters did you tune? (Some algorithms do not have parameters that you need to tune -- if this is the case for the one you picked, identify and briefly explain how you would have done it for the model that was not your final choice or a different model that does utilize parameter tuning, e.g. a decision tree classifier).  [relevant rubric items: “discuss parameter tuning”, “tune the algorithm”]___
 
-The most of the clasifier owns a set of parameter tha can be modified to improve the results over our dataset. The Default values for the classifier are not always the ones with the better performance, so you need to try different paramaters configuration in order to find the best combination.
+Most of the classifier owns a set of parameters that can be modified to improve the results over our dataset. The Default values for the classifier are not always the ones with the better performance, so you need to try different parameters configuration to find the best combination.
 
 I used "GridSearchCV" to try several parameters within my Decision tree classifier:
+
 
 
 ```python
@@ -441,24 +377,59 @@ print  clf
 test_classifier(clf, my_dataset, features_list)
 ```
 
-As it is shown in the code the parameters and the values that I select to test were:
+As it is shown in the code, the parameters and the values that I select to test were:
 
-- Criterion:['gini', 'entropy'] The function to measure the quality of a split. Supported criteria are “gini” for the Gini impurity and “entropy” for the information gain.
+    •	Criterion:['gini', 'entropy'] The function to measure the quality of a split. Supported criteria are “gini” for the Gini impurity and “entropy” for the information gain.
 
-- min_samples_split':[2,3,4] The minimum number of samples required to split an internal node
+    •	min_samples_split':[2,3,4] The minimum number of samples required to split an internal node
 
-- max_depth':[None,2,4,6] The maximum depth of the tree. If None, then nodes are expanded until all leaves are pure or until all leaves contain less than min_samples_split samples.
+    •	max_depth':[None,2,4,6] The maximum depth of the tree. If None, then nodes are expanded until all leaves are pure or until all leaves contain less than min_samples_split samples.
+
+After the run the test "GridSearchCV" tell us that for the min_samples_split and max_depth the best value was the default one. However, for the "criterion" parameter the "entropy" value shows better performance that the default one "gini". This tuning improves all the scores of our classifier, even if we have modified only one parameter from the default classifier:
+
+![alt text](performance2.png "Results")
 
 
+### Question 5:
+___What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis?  [relevant rubric items: “discuss validation”, “validation strategy”]___
 
+Validation is the strategy to evaluate the performance of the model on unseen data. A classic mistake is to use the same dataset to train and test the classifier. On this case, the performance would be better than it really does (leading to overfitting) but in fact, we will have no idea about how our classifier works on unseen data.
 
+My validation strategy has been to use Stratified Shuffle Split included in the "tester.py" code provided by Udacity which randomly choose training and testing test in our dataset multiples times and average the results. This is important in our dataset since it is highly unbalanced (18 POIs and 128 non-POIs) and very small.
 
-
-### ¿Question 5?
-What is validation, and what’s a classic mistake you can make if you do it wrong? How did you validate your analysis?  [relevant rubric items: “discuss validation”, “validation strategy”]
 
 
 
 ### ¿Question 6?
-Give at least 2 evaluation metrics and your average performance for each of them.  Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance. [relevant rubric item: “usage of evaluation metrics”]
+___Give at least 2 evaluation metrics and your average performance for each of them.  Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance. [relevant rubric item: “usage of evaluation metrics”]___
+
+
+
+__Precision: 0.46__ 
+
+![alt text](precision.png "Results")
+tp: true positive
+
+fp: false positive
+
+If I have a good precision it means that whenever a POI gets flagged in my test set, I know with a lot of confidence that it’s very likely to be a real POI and not a false alarm. On the other hand, the price I pay for this is that I sometimes miss real POIs, since I’m effectively reluctant to pull the trigger on edge cases.
+
+
+__Recall: 0.41 __
+
+![alt text](recall.png "Results")
+tp: true positive
+
+np: false negative
+
+If I have a good recall it means nearly every time a POI shows up in my test set, I can identify him or her. The cost of this is that I sometimes get some false positives, where non-POIs get flagged.
+
+__F1 score: 0.43 __
+
+![alt text](F1 score.png "Results")
+
+If I have a good F1 score that means that when my identifier finds a POI then the person is almost certainly a POI, and if the identifier does not flag someone, then they are almost certainly not a POI.
+
+
+
 
