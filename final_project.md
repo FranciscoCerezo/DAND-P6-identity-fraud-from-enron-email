@@ -198,11 +198,11 @@ data_dict.pop('THE TRAVEL AGENCY IN THE PARK', 0)
 ```
 
 
-```python
-## Optimize Feature Selection/Engineering
-```
 
-___ What features did you end up using in your POI identifier, and what selection process did you use to pick them? Did you have to do any scaling? Why or why not? As part of the assignment, you should attempt to engineer your own feature that does not come ready-made in the dataset -- explain what feature you tried to make, and the rationale behind it. (You do not necessarily have to use it in the final analysis, only engineer and test it.) In your feature selection step, if you used an algorithm like a decision tree, please also give the feature importances of the features that you use, and if you used an automated feature selection function like SelectKBest, please report the feature scores and reasons for your choice of parameter values.  [relevant rubric items: “create new features”, “intelligently select features”, “properly scale features”]___
+## Optimize Feature Selection/Engineering
+
+
+__What features did you end up using in your POI identifier, and what selection process did you use to pick them? Did you have to do any scaling? Why or why not? As part of the assignment, you should attempt to engineer your own feature that does not come ready-made in the dataset -- explain what feature you tried to make, and the rationale behind it. (You do not necessarily have to use it in the final analysis, only engineer and test it.) In your feature selection step, if you used an algorithm like a decision tree, please also give the feature importances of the features that you use, and if you used an automated feature selection function like SelectKBest, please report the feature scores and reasons for your choice of parameter values.  (relevant rubric items: “create new features”, “intelligently select features”, “properly scale features”)__
 
 
 ### Create new features 
@@ -358,7 +358,7 @@ features = scaler.fit_transform(features)
 
 ## Pick and Tune an Algorithm
 
-___ What algorithm did you end up using? What other one(s) did you try? How did model performance differ between algorithms?  [relevant rubric item: “pick an algorithm”]___
+___What algorithm did you end up using? What other one(s) did you try? How did model performance differ between algorithms?  (relevant rubric item: “pick an algorithm”)___
 
 
 ### Pick an algorithm
@@ -477,4 +477,4 @@ np: false negative
 
 If I have a good F1 score that means that when my identifier finds a POI then the person is almost certainly a POI, and if the identifier does not flag someone, then they are almost certainly not a POI.
 
-![alt text](img/F1 score.png "Results")
+![alt text](img/scat.png "Results")
