@@ -197,7 +197,10 @@ By Inspecting the list of people included on the dataset I realized about anothe
 data_dict.pop('THE TRAVEL AGENCY IN THE PARK', 0)
 ```
 
+
+```python
 ## Optimize Feature Selection/Engineering
+```
 
 ___ What features did you end up using in your POI identifier, and what selection process did you use to pick them? Did you have to do any scaling? Why or why not? As part of the assignment, you should attempt to engineer your own feature that does not come ready-made in the dataset -- explain what feature you tried to make, and the rationale behind it. (You do not necessarily have to use it in the final analysis, only engineer and test it.) In your feature selection step, if you used an algorithm like a decision tree, please also give the feature importances of the features that you use, and if you used an automated feature selection function like SelectKBest, please report the feature scores and reasons for your choice of parameter values.  [relevant rubric items: “create new features”, “intelligently select features”, “properly scale features”]___
 
@@ -455,35 +458,23 @@ ___Give at least 2 evaluation metrics and your average performance for each of t
 
 If I have a good precision it means that whenever a POI gets flagged in my test set, I know with a lot of confidence that it’s very likely to be a real POI and not a false alarm. On the other hand, the price I pay for this is that I sometimes miss real POIs, since I’m effectively reluctant to pull the trigger on edge cases.
 
-
-
-
 ![alt text](img/precision.png "Results")
-tp: true positive
 
-fp: false positive
+tp: true positive<br />
+np: false negative
 
 
 ### Recall: 0.41
 
 If I have a good recall it means nearly every time a POI shows up in my test set, I can identify him or her. The cost of this is that I sometimes get some false positives, where non-POIs get flagged.
 
-
-
 ![alt text](img/recall.png "Results")
-tp: true positive
 
+tp: true positive<br />
 np: false negative
 
 ### F1 score: 0.43
 
 If I have a good F1 score that means that when my identifier finds a POI then the person is almost certainly a POI, and if the identifier does not flag someone, then they are almost certainly not a POI.
 
-
-
 ![alt text](img/F1 score.png "Results")
-
-
-
-
-
