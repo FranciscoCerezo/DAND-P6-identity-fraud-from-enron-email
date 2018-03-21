@@ -458,7 +458,7 @@ ___Give at least 2 evaluation metrics and your average performance for each of t
 
 If I have a good precision it means that whenever a POI gets flagged in my test set, I know with a lot of confidence that it’s very likely to be a real POI and not a false alarm. On the other hand, the price I pay for this is that I sometimes miss real POIs, since I’m effectively reluctant to pull the trigger on edge cases.
 
-![alt text](img/precision.png "Results")
+![alt text](img/Precision.png "Results")
 
 tp: true positive<br />
 np: false negative
@@ -468,7 +468,7 @@ np: false negative
 
 If I have a good recall it means nearly every time a POI shows up in my test set, I can identify him or her. The cost of this is that I sometimes get some false positives, where non-POIs get flagged.
 
-![alt text](img/recall.png "Results")
+![alt text](img/Recall.png "Results")
 
 tp: true positive<br />
 np: false negative
