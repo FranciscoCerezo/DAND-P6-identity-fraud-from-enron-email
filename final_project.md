@@ -477,4 +477,4 @@ np: false negative
 
 If I have a good F1 score that means that when my identifier finds a POI then the person is almost certainly a POI, and if the identifier does not flag someone, then they are almost certainly not a POI.
 
-![alt text](img/scat.png "Results")
+![alt text](img/F1score.png "Results")
