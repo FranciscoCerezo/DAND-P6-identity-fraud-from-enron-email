@@ -387,6 +387,7 @@ test_classifier(clf3, my_dataset, features_list)
 Based on these results I selected the decision tree classifier which maximizes Precision, Recall and F1 and F2 score and had a similar accuracy than the rest.
 
 ## Parameter tuning and its importance.
+
 ___What does it mean to tune the parameters of an algorithm, and what can happen if you don’t do this well?  How did you tune the parameters of your particular algorithm? What parameters did you tune? (Some algorithms do not have parameters that you need to tune -- if this is the case for the one you picked, identify and briefly explain how you would have done it for the model that was not your final choice or a different model that does utilize parameter tuning, e.g. a decision tree classifier).  [relevant rubric items: “discuss parameter tuning”, “tune the algorithm”]___
 
 Most of the classifier owns a set of parameters that can be modified to improve the results over our dataset. The Default values for the classifier are not always the ones with the better performance, so you need to try different parameters configuration to find the best combination.
@@ -445,6 +446,7 @@ My validation strategy has been to use Stratified Shuffle Split included in the 
 
 
 ## Evaluation Metrics 
+
 ___Give at least 2 evaluation metrics and your average performance for each of them.  Explain an interpretation of your metrics that says something human-understandable about your algorithm’s performance. [relevant rubric item: “usage of evaluation metrics”]___
 
 
@@ -452,6 +454,7 @@ ___Give at least 2 evaluation metrics and your average performance for each of t
 ### Precision: 0.46
 
 If I have a good precision it means that whenever a POI gets flagged in my test set, I know with a lot of confidence that it’s very likely to be a real POI and not a false alarm. On the other hand, the price I pay for this is that I sometimes miss real POIs, since I’m effectively reluctant to pull the trigger on edge cases.
+
 ![alt text](img/precision.png "Results")
 tp: true positive
 
@@ -461,6 +464,7 @@ fp: false positive
 ### Recall: 0.41
 
 If I have a good recall it means nearly every time a POI shows up in my test set, I can identify him or her. The cost of this is that I sometimes get some false positives, where non-POIs get flagged.
+
 ![alt text](img/recall.png "Results")
 tp: true positive
 
@@ -469,6 +473,7 @@ np: false negative
 ### F1 score: 0.43
 
 If I have a good F1 score that means that when my identifier finds a POI then the person is almost certainly a POI, and if the identifier does not flag someone, then they are almost certainly not a POI.
+
 ![alt text](img/F1 score.png "Results")
 
 
