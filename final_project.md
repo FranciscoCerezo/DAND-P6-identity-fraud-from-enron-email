@@ -251,7 +251,7 @@ To select the number of features We need to take keep in mind the tradeoff betwe
 
 ![alt text](img/feat_sco.png "Results")
 
-We can see that for GridSearchCV the best k=5, for decision tree k=16 and for random forest k=. With this information I decided to choose a number of features between 5 and 10 since the f1 score remain more or less constant for the classifiers and the reduction of the number of features would help us with the overfitting.
+We can see that for GridSearchCV the best k=5, for decision tree k=16 and for random forest k=6. With this information I decided to choose a number of features between 5 and 10 since the f1 score remain more or less constant for the classifiers and the reduction of the number of features would help us with the overfitting.
 
 Additionally, I used "feature_importance" from the decision tree to rank the more important features for this criteria and filter the previously top 10 features ranked by selectKbest:
 
