@@ -246,102 +246,24 @@ for name in data_dict:
 
 ### Intelligently select features  and Feature scaling
 
+As we know Features is not the same than information. For feature selection I used GridSearchCV to find the influence of the number of features in the score across different classifiers: Naive Bayes, decision tree and random forest
+To select the number of features We need to take keep in mind the tradeoff between maximizes F1-score but not to use to much features to avoid overfitting an number of features According to the results we can see that:
+
+![alt text](img/feat_sco.png "Results")
+
+We can see that for GridSearchCV the best k=5, for decision tree k=16 and for random forest k=. With this information I decided to choose a number of features between 5 and 10 since the f1 score remain more or less constant for the classifiers and the reduction of the number of features would help us with the overfitting.
+
+Additionally, I used "feature_importance" from the decision tree to rank the more important features for this criteria and filter the previously top 10 features ranked by selectKbest:
+
+![alt text](img/feat_select.png "Results")
+
 For the selection of the features I decided to use the SelectKBest function, which selects the K features with the highest scores. I used k=10 and I obtained the following results on my dataset:
 
-
-```python
-# Features
-financial_features = ['salary', 'deferral_payments', 'total_payments', 'loan_advances', 'bonus', 'restricted_stock_deferred', 'deferred_income', 'total_stock_value',
-'expenses', 'exercised_stock_options', 'other', 'long_term_incentive', 'restricted_stock', 'director_fees','fraction_from_poi',
- 'fraction_to_poi']
-email_features = ['to_messages', 'email_address', 'from_poi_to_this_person', 'from_messages', 'from_this_person_to_poi', 'shared_receipt_with_poi']
-POI_label = ['poi']
-
-my_dataset=data_dict
-my_features=POI_label + financial_features + email_features
-my_features.remove('email_address')
-
-### Extract features and labels from dataset for local testing
-data = featureFormat(my_dataset, features_list, sort_keys = True)
-labels, features = targetFeatureSplit(data)
-
-# Scale features
-scaler = MinMaxScaler()
-features = scaler.fit_transform(features)
-# Note that we do it just to show feature scaling example. If fact the final classifier algortihm chosen(decission tree)
-# is not based in Euclidean distances and it is not affected for the different magnitudes in the features.
-
-# use K-best to rank the best features
-k_best = SelectKBest(k=10)
-k_best.fit(features, labels)
-
-results_list = zip(k_best.get_support(),features_list[1:], k_best.scores_)
-results_list = sorted(results_list, key=lambda x: x[2], reverse=True)
-# print the scores for each feature
-pprint.pprint (results_list)
-```
-
-    [(True, 'exercised_stock_options', 24.815079733218194),
-     (True, 'total_stock_value', 24.182898678566872),
-     (True, 'bonus', 20.792252047181538),
-     (True, 'salary', 18.289684043404513),
-     (True, 'fraction_to_poi', 16.409712548035792),
-     (True, 'deferred_income', 11.458476579280697),
-     (True, 'long_term_incentive', 9.9221860131898385),
-     (True, 'restricted_stock', 9.212810621977086),
-     (True, 'total_payments', 8.7727777300916809),
-     (True, 'shared_receipt_with_poi', 8.5894207316823774),
-     (False, 'loan_advances', 7.1840556582887247),
-     (False, 'expenses', 6.0941733106389666),
-     (False, 'from_poi_to_this_person', 5.2434497133749574),
-     (False, 'other', 4.1874775069953785),
-     (False, 'fraction_from_poi', 3.128091748156737),
-     (False, 'from_this_person_to_poi', 2.3826121082276743),
-     (False, 'director_fees', 2.126327802007705),
-     (False, 'to_messages', 1.6463411294420094),
-     (False, 'deferral_payments', 0.22461127473600509),
-     (False, 'from_messages', 0.16970094762175436),
-     (False, 'restricted_stock_deferred', 0.065499652909891237)]
-    
+Finally I got these 6 features as the most suitable for my choice:
+['poi','exercised_stock_options','total_stock_value','salary', 'fraction_to_poi', 'restricted_stock','shared_receipt_with_poi']
 
 
-In order to complement my feature selection I created a decision tree classifier and  I used "feature_importance" to rank the more important features for the classifier:
 
-
-```python
-# use feature_importances_ from a decision tree classifier to rank the best features
-from tester import test_classifier, dump_classifier_and_data
-from sklearn import tree
-clf_test = tree.DecisionTreeClassifier()
-test_classifier(clf_test, my_dataset, features_list)
-importance=clf_test.feature_importances_
-for i in range (len(importance)):
-    print features_list[i+1] + ": "+str(importance[i])b
-```
-
-salary: 0.047619047619<br />
-deferral_payments: 0.0<br />
-total_payments: 0.0<br />
-loan_advances: 0.0<br />
-bonus: 0.0<br />
-restricted_stock_deferred: 0.0<br />
-deferred_income: 0.0<br />
-total_stock_value: 0.0907738095238<br />
-expenses: 0.123685837972<br />
-exercised_stock_options: 0.379947278912<br />
-other: 0.0<br />
-long_term_incentive: 0.0<br />
-restricted_stock: 0.0331909937888<br />
-director_fees: 0.0<br />
-fraction_from_poi: 0.0<br />
-fraction_to_poi: 0.126866365519<br />
-to_messages: 0.047619047619<br />
-from_poi_to_this_person: 0.0<br />
-from_messages: 0.0860119047619<br />
-from_this_person_to_poi: 0.0<br />
-shared_receipt_with_poi: 0.0642857142857<br />
-
-Finally, I merged both results Kscore and _feature_importance and I decided to select the five top ranked features in both sets: __"bonus", "exercised_stock_options","fraction_to_poi", "total_stock_value", "shared_receipt_with_poi"__
 
 ### Properly scale features
 
