@@ -1,9 +1,3 @@
-
-# coding: utf-8
-
-# In[2]:
-
-
 #!/usr/bin/python
 
 import sys
@@ -107,10 +101,36 @@ features = scaler.fit_transform(features)
 # Note that we do it just to show feature scaling example. If fact the final classifier algortihm chosen(decission tree)
 # is not based in Euclidean distances and it is not affected for the different magnitudes in the features.
 
-# use K-best to rank the best features
-k_best = SelectKBest(k=10)
-k_best.fit(features, labels)
 
+
+
+
+#######################################################
+import numpy as np
+from sklearn.naive_bayes import GaussianNB
+from sklearn.ensemble import RandomForestClassifier
+from sklearn import tree
+from sklearn.pipeline import Pipeline
+from sklearn.grid_search import GridSearchCV
+from sklearn.feature_selection import SelectKBest, f_classif
+from sklearn.cross_validation import StratifiedShuffleSplit
+
+cv = StratifiedShuffleSplit(labels, n_iter = 1000,random_state = 42)
+kbest = SelectKBest(f_classif)
+Kbest_dict={'kbest__k': [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]}
+clf_list=[GaussianNB(),tree.DecisionTreeClassifier(), RandomForestClassifier(max_depth=2, random_state=0)]
+
+# Visualize the impact of the number of feture in the F1score
+#for elem in clf_list:
+#    pipeline = Pipeline([('kbest', kbest), ('clasif', elem)])
+#    grid_search = GridSearchCV(pipeline,Kbest_dict ,cv=cv, scoring = 'f1')
+#    grid_search.fit(features,labels)
+#    pprint.pprint(grid_search.grid_scores_)
+
+
+# use K-best to rank the best features
+k_best = SelectKBest()
+k_best.fit(features, labels)
 results_list = zip(k_best.get_support(),features_list[1:], k_best.scores_)
 results_list = sorted(results_list, key=lambda x: x[2], reverse=True)
 # print the scores for each feature
@@ -127,8 +147,9 @@ for i in range (len(importance)):
     
 # Using the ranking from K-best anf merging it with the more important features obtained from de Decision tree clasifier
 # I decided to select the best of both sets:   
-features_list =  ["poi","bonus", "exercised_stock_options","fraction_to_poi", "total_stock_value", "shared_receipt_with_poi"]
+features_list =['poi','exercised_stock_options','total_stock_value','salary', 'fraction_to_poi', 'restricted_stock','shared_receipt_with_poi']
 
+    
 ### Task 4: Try a varity of classifiers
 ### Please name your classifier clf for easy export below.
 ### Note that if you want to do PCA or other multi-stage operations,
@@ -161,10 +182,6 @@ test_classifier(clf3, my_dataset, features_list)
 ### function. Because of the small size of the dataset, the script uses
 ### stratified shuffle split cross validation. For more info: 
 ### http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.StratifiedShuffleSplit.html
-
-
-from sklearn import grid_search
-from sklearn.cross_validation import StratifiedShuffleSplit
 # Create the parameter set to be tested in our Decision Tree clasifier
 parameters = {'criterion':('gini', 'entropy'),
               'min_samples_split':[2,3,4],
@@ -177,9 +194,11 @@ labels, features = targetFeatureSplit(data)
 # Use StratifiedShuffleSplit to avoid problems due to the higly balanced cateogories ans the & small size of our  dataset
 cv = StratifiedShuffleSplit(labels, n_iter = 1000,random_state = 42)
 # Run test over the different parameters
-clfs = grid_search.GridSearchCV( tree.DecisionTreeClassifier(), param_grid = parameters,cv = cv, scoring = 'f1').fit(features, labels)
+clfs = GridSearchCV(tree.DecisionTreeClassifier(), param_grid = parameters,cv = cv, scoring = 'f1').fit(features, labels)
 # Get best estimator from results
 clf= clfs.best_estimator_
+
+
 
 #test the final performance of our tune Decision tree classifier
 test_classifier(clf, my_dataset, features_list)
@@ -195,4 +214,3 @@ test_classifier(clf, my_dataset, features_list)
 ### generates the necessary .pkl files for validating your results.
 
 dump_classifier_and_data(clf, my_dataset, features_list)
-
