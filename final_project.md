@@ -246,8 +246,10 @@ for name in data_dict:
 
 ### Intelligently select features  and Feature scaling
 
-As we know, Features is not the same than information. I used GridSearchCV and selecKBest to find the influence of the number of features in the score across different classifiers: Naive Bayes, decision tree and random forest
-To select the number of features, we need to tradeoff between score maximization and not to use too much features to avoid overfitting. I obtained the following results:
+As we know, Features does not mean information. I used GridSearchCV and selecKBest to find the influence of the number of features in the score across different classifiers: Naive Bayes, decision tree and random forest.
+To select the number of features, we need to tradeoff between the score and not to use too much features to avoid overfitting. I obtained the following results:
+
+
 
 ![alt text](img/feat_sco.png "Results")
 
