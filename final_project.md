@@ -246,22 +246,19 @@ for name in data_dict:
 
 ### Intelligently select features  and Feature scaling
 
-As we know Features is not the same than information. For feature selection I used GridSearchCV to find the influence of the number of features in the score across different classifiers: Naive Bayes, decision tree and random forest
-To select the number of features We need to take keep in mind the tradeoff between maximizes F1-score but not to use to much features to avoid overfitting an number of features According to the results we can see that:
+As we know, Features is not the same than information. I used GridSearchCV and selecKBest to find the influence of the number of features in the score across different classifiers: Naive Bayes, decision tree and random forest
+To select the number of features, we need to tradeoff between score maximization and not to use too much features to avoid overfitting. I obtained the following results:
 
 ![alt text](img/feat_sco.png "Results")
 
-We can see that for GridSearchCV the best k=5, for decision tree k=16 and for random forest k=6. With this information I decided to choose a number of features between 5 and 10 since the f1 score remain more or less constant for the classifiers and the reduction of the number of features would help us with the overfitting.
+We can see the best number of features is k=5 for Naive Bayes,  k=16 for decision tree and k=6 for random forest . With this information I decided to choose a number of features between 5 and 10 since the f1 score remain more or less constant for the classifiers and the reduction of the number of features would help us with the overfitting.
 
 Additionally, I used "feature_importance" from the decision tree to rank the more important features for this criteria and filter the previously top 10 features ranked by selectKbest:
 
 ![alt text](img/feat_select.png "Results")
 
-For the selection of the features I decided to use the SelectKBest function, which selects the K features with the highest scores. I used k=10 and I obtained the following results on my dataset:
-
 Finally I got these 6 features as the most suitable for my choice:
 ['poi','exercised_stock_options','total_stock_value','salary', 'fraction_to_poi', 'restricted_stock','shared_receipt_with_poi']
-
 
 
 
