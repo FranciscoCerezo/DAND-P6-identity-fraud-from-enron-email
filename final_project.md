@@ -306,7 +306,11 @@ test_classifier(clf3, my_dataset, features_list)
 
 ![alt text](img/performance.png "Results")
 
-Based on these results I selected the decision tree classifier which maximizes Precision, Recall and F1 and F2 score and had a similar accuracy than the rest.
+
+Based on these results GaussianNB performs the best overall results while decisiontree classifier results are a little bit worse and the Ramdom Forest classifier is definitively discarded due to the poor performance.
+
+On A first shot GaussianNB seem to be the winner classifier. However, during the next paragraphs we will try to tune the parameters of decisiontree classifier in order to improve these results (GaussianNB has no petameters to be tuned so there is not room for improvement on that sense).
+
 
 ## Parameter tuning and its importance.
 
@@ -355,9 +359,13 @@ As it is shown in the code, the parameters and the values that I select to test 
 
     •	max_depth':[None,2,4,6] The maximum depth of the tree. If None, then nodes are expanded until all leaves are pure or until all leaves contain less than min_samples_split samples.
 
-After the run the test "GridSearchCV" tell us that for the min_samples_split and max_depth the best value was the default one. However, for the "criterion" parameter the "entropy" value shows better performance that the default one "gini". This tuning improves all the scores of our classifier, even if we have modified only one parameter from the default classifier:
+After the run the test, "GridSearchCV" tell us that we need to perform modifications into the parameters: ___“criterion”, “max_depth” ___ and ___“min_samples_split”.___
 
 ![alt text](img/performance2.png "Results")
+
+As we can see in the table above, this tuning improves all the scores from the previous one using the default values and even the scores obtained by the Naive Bayes
+
+
 
 
 ## Validate and Evaluate
@@ -377,7 +385,7 @@ ___Give at least 2 evaluation metrics and your average performance for each of t
 
 
 
-### Precision: 0.46
+### Precision: 0.44
 
 If I have a good precision it means that whenever a POI gets flagged in my test set, I know with a lot of confidence that it’s very likely to be a real POI and not a false alarm. On the other hand, the price I pay for this is that I sometimes miss real POIs, since I’m effectively reluctant to pull the trigger on edge cases.
 ![alt text](img/Precision.png "Results")
@@ -385,14 +393,14 @@ tp: true positive<br />
 np: false negative
 
 
-### Recall: 0.41
+### Recall: 0.54
 
 If I have a good recall it means nearly every time a POI shows up in my test set, I can identify him or her. The cost of this is that I sometimes get some false positives, where non-POIs get flagged.
 ![alt text](img/Recall.png "Results")
 tp: true positive<br />
 np: false negative
 
-### F1 score: 0.43
+### F1 score: 0.49
 
 If I have a good F1 score that means that when my identifier finds a POI then the person is almost certainly a POI, and if the identifier does not flag someone, then they are almost certainly not a POI.
 ![alt text](img/F1score.png "Results")
