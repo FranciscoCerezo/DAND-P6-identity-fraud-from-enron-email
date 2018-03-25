@@ -395,6 +395,10 @@ ___What does it mean to tune the parameters of an algorithm, and what can happen
 
 Most of the classifier owns a set of parameters that can be modified to improve the results over our dataset. The Default values for the classifier are not always the ones with the better performance, so you need to try different parameters configuration to find the best combination.
 
+To perform this tuning, we need to consider trade-off between Bias and Variance:
+· If we perform too little the parameters we could oversimplify, or classifier and It would core poorly in our dataset.
+· On the other side, if tune to much the parameters we could overfit our classifier and it will work properly in our dataset, but it could show a deficient performance when It is used on unseen data.
+
 
 ### Tune the algorithm
 I used "GridSearchCV" to try several parameters within my Decision tree classifier:
